@@ -3,6 +3,9 @@ package xyz.cimetieredesinnocents.cdicore.tech
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.block.Block
@@ -31,6 +34,14 @@ data class TechNode(
                         Codec.INT.fieldOf("count").forGetter(Material::count)
                     ).apply(it, ::Material)
                 }
+
+                val STREAM_CODEC = StreamCodec.composite(
+                    Ingredient.CONTENTS_STREAM_CODEC,
+                    Material::ingredient,
+                    ByteBufCodecs.INT,
+                    Material::count,
+                    ::Material
+                )
             }
         }
 
@@ -42,6 +53,16 @@ data class TechNode(
                     Codec.INT.fieldOf("reverseEngineering").forGetter(TechPoints::reverseEngineering)
                 ).apply(it, ::TechPoints)
             }
+
+            val STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.INT,
+                TechPoints::theory,
+                ByteBufCodecs.list<RegistryFriendlyByteBuf, Material>().apply(Material.STREAM_CODEC),
+                TechPoints::materials,
+                ByteBufCodecs.INT,
+                TechPoints::reverseEngineering,
+                ::TechPoints
+            )
         }
     }
 

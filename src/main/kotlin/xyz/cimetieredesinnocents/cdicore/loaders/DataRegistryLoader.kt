@@ -1,18 +1,11 @@
 package xyz.cimetieredesinnocents.cdicore.loaders
 
+import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.neoforge.registries.DataPackRegistryEvent
+import xyz.cimetieredesinnocents.cdicore.CDICore
 import xyz.cimetieredesinnocents.cdicore.tech.TechNode
-import xyz.cimetieredesinnocents.cdicore.utils.RLUtil
+import xyz.cimetieredesinnocents.cdilib.loaders.DataRegistryLoaderFactory
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-object DataRegistryLoader {
-    val TECH_NODE = ResourceKey.createRegistryKey<TechNode>(RLUtil.of("tech_node"))
-
-    @SubscribeEvent
-    fun register(event: DataPackRegistryEvent.NewRegistry) {
-        event.dataPackRegistry(TECH_NODE, TechNode.CODEC, TechNode.CODEC)
-    }
+object DataRegistryLoader : DataRegistryLoaderFactory(CDICore.ID) {
+    val TECH_NODE: ResourceKey<Registry<TechNode>> = register("tech_node", TechNode.CODEC)
 }
