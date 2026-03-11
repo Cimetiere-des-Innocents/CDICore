@@ -2,19 +2,18 @@ package xyz.cimetieredesinnocents.cdicore.tech
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
-import net.minecraft.world.level.block.Block
 import xyz.cimetieredesinnocents.cdicore.loaders.DataRegistryLoader
-import java.util.*
-import kotlin.jvm.optionals.getOrNull
 
 data class TechNode(
-    val researchTable: ResourceKey<Block>?,
+    val icon: ItemStack,
+    val dataSize: Int,
+    val researchTable: List<ResourceKey<ResearchTableTier>>,
     val techPoints: TechPoints,
     val prerequisites: List<ResourceKey<TechNode>>
 ) {
@@ -69,18 +68,22 @@ data class TechNode(
     companion object {
         val CODEC = RecordCodecBuilder.create {
             it.group(
-                ResourceKey.codec(Registries.BLOCK)
-                    .optionalFieldOf("researchTable")
-                    .forGetter { Optional.ofNullable(it.researchTable) },
+                ItemStack.CODEC
+                    .fieldOf("icon")
+                    .forGetter(TechNode::icon),
+                Codec.INT
+                    .fieldOf("dataSize")
+                    .forGetter(TechNode::dataSize),
+                Codec.list(ResourceKey.codec(DataRegistryLoader.RESEARCH_TABLE_TIER))
+                    .fieldOf("researchTable")
+                    .forGetter(TechNode::researchTable),
                 TechPoints.CODEC
                     .fieldOf("techPoints")
                     .forGetter(TechNode::techPoints),
                 Codec.list(ResourceKey.codec(DataRegistryLoader.TECH_NODE))
                     .fieldOf("prerequisites")
                     .forGetter(TechNode::prerequisites)
-            ).apply(it) { researchTable, techPoints, prerequisites ->
-                TechNode(researchTable.getOrNull(), techPoints, prerequisites)
-            }
+            ).apply(it, ::TechNode)
         }
     }
 }

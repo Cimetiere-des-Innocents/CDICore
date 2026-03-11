@@ -35,6 +35,26 @@ data class PlayerTechHolder(
             return ResearchingTech(TechNode.TechPoints(theory, materials, reverseEngineering))
         }
 
+        val finished: Boolean get() {
+            if (pointsRemaining.theory > 0) {
+                return false
+            }
+
+            if (pointsRemaining.reverseEngineering > 0) {
+                return false
+            }
+
+            if (pointsRemaining.materials.isEmpty()) {
+                return true
+            }
+            for (material in pointsRemaining.materials) {
+                if (material.count > 0) {
+                    return false
+                }
+            }
+            return true
+        }
+
         companion object {
             val CODEC = RecordCodecBuilder.create { it.group(
                 TechNode.TechPoints.CODEC.fieldOf("pointsRemaining").forGetter(ResearchingTech::pointsRemaining)

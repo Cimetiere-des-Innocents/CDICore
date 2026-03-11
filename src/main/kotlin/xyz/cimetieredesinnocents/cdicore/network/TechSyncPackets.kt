@@ -8,7 +8,7 @@ import xyz.cimetieredesinnocents.cdicore.loaders.DataRegistryLoader
 import xyz.cimetieredesinnocents.cdicore.tech.PlayerTechHolder
 import xyz.cimetieredesinnocents.cdicore.tech.TechNode
 
-object TechSyncPacket {
+object TechSyncPackets {
     class KeyVal {
         lateinit var key: ResourceKey<TechNode>
         lateinit var value: PlayerTechHolder.ResearchingTech
@@ -97,6 +97,25 @@ object TechSyncPacket {
         override fun onClientReceived(packet: Data, context: IPayloadContext) {
             context.enqueueWork {
                 context.player().setData(DataAttachmentLoader.PLAYER_TECH, packet.holder)
+            }
+        }
+    }
+
+    object SyncInsight : BasePacket<SyncInsight.Data, RegistryFriendlyByteBuf>(
+        "tech_sync_insight",
+        Direction.TO_CLIENT,
+        Phase.PLAY
+    ) {
+        override val factory = ::Data
+        override val codec = codec(int(Data::value))
+
+        class Data {
+            var value = 0
+        }
+
+        override fun onClientReceived(packet: Data, context: IPayloadContext) {
+            context.enqueueWork {
+                context.player().setData(DataAttachmentLoader.INSIGHT_TECH_POINTS, packet.value)
             }
         }
     }

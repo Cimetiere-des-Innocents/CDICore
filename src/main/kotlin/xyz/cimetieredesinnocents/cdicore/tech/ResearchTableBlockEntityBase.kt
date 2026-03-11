@@ -9,6 +9,4 @@ import net.minecraft.world.level.block.state.BlockState
 abstract class ResearchTableBlockEntityBase(type: BlockEntityType<*>, pos: BlockPos, blockState: BlockState) :
     BlockEntity(type, pos, blockState) {
     var user: ServerPlayer? = null
-
-
 }

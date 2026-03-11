@@ -1,0 +1,7 @@
+{
+    "gamerule.cdicore.enableForgetting": "启用遗忘",
+    "tab.cdicore.tab": "CDI核心",
+    "item.cdicore.cdi_debug_stick": "CDI调试杖",
+    "item.cdicore.cdi_logo": "CDI图标",
+    "fml.menu.mods.info.description.cdicore": "CDI系列核心Mod"
+}
