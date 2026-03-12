@@ -8,6 +8,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.level.Level
 import xyz.cimetieredesinnocents.cdicore.loaders.DataRegistryLoader
 
 data class TechNode(
@@ -84,6 +85,12 @@ data class TechNode(
                     .fieldOf("prerequisites")
                     .forGetter(TechNode::prerequisites)
             ).apply(it, ::TechNode)
+        }
+
+        fun ofKey(key: ResourceKey<TechNode>, level: Level): TechNode? {
+            return level.registryAccess()
+                .registryOrThrow(DataRegistryLoader.TECH_NODE)
+                .get(key)
         }
     }
 }

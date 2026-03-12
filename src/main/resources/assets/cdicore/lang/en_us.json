@@ -3,5 +3,11 @@
     "tab.cdicore.tab": "CDI Core",
     "item.cdicore.cdi_debug_stick": "CDI Debug Stick",
     "item.cdicore.cdi_logo": "CDI Logo",
-    "fml.menu.mods.info.description.cdicore": "Core of CDI mods"
+    "fml.menu.mods.info.description.cdicore": "Core of CDI mods",
+    "tooltip.cdicore.tech.researched": "Researched",
+    "tooltip.cdicore.tech.researching": "Researching",
+    "tooltip.cdicore.tech.researchable": "Researchable",
+    "tooltip.cdicore.tech.notResearched": "Not researched",
+    "tooltip.cdicore.tech.needResearch": "Need research:",
+    "tooltip.cdicore.tech.needResearchTable": "Need research table"
 }

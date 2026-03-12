@@ -56,36 +56,10 @@ repositories {
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
         content { includeGroup "thedarkcolour" }
     }
-
-    maven {
-        name 'IzzelAliz Maven'
-        url 'https://maven.izzel.io/releases/'
-    }
 }
 
 dependencies {
     implementation 'thedarkcolour:kotlinforforge-neoforge:5.5.0'
-
-    implementation "icyllis.modernui:ModernUI-NeoForge:${minecraft_version}-${modernui_version}.+"
-    additionalRuntimeClasspath compileOnly("icyllis.modernui:ModernUI-Core:${modernui_version}") {
-        exclude group: "org.slf4j", module: "slf4j-api"
-        exclude group: "org.apache.logging.log4j", module: "log4j-core"
-        exclude group: "org.apache.logging.log4j", module: "log4j-api"
-        exclude group: "com.google.code.findbugs", module: "jsr305"
-        exclude group: "org.jetbrains", module: "annotations"
-        exclude group: "com.ibm.icu", module: "icu4j"
-        exclude group: "it.unimi.dsi", module: "fastutil"
-    }
-
-    additionalRuntimeClasspath compileOnly("icyllis.modernui:ModernUI-Markflow:${modernui_version}") {
-        exclude group: "org.slf4j", module: "slf4j-api"
-        exclude group: "org.apache.logging.log4j", module: "log4j-core"
-        exclude group: "org.apache.logging.log4j", module: "log4j-api"
-        exclude group: "com.google.code.findbugs", module: "jsr305"
-        exclude group: "org.jetbrains", module: "annotations"
-        exclude group: "com.ibm.icu", module: "icu4j"
-        exclude group: "it.unimi.dsi", module: "fastutil"
-    }
 
     implementation project(":CDILib")
 }
@@ -103,7 +77,6 @@ tasks.withType(ProcessResources).configureEach {
             mod_version            : mod_version,
             mod_authors            : mod_authors,
             mod_description        : mod_description,
-            modernui_version       : modernui_version,
             cdilib_version         : cdilib_version
     ]
     inputs.properties replaceProperties

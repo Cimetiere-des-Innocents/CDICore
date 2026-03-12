@@ -1,6 +1,8 @@
 package xyz.cimetieredesinnocents.cdicore.utils
 
 import net.minecraft.util.ColorRGBA
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 object ColorUtil {
     private fun rgbaToArgb(color: Long): Int {
@@ -28,5 +30,36 @@ object ColorUtil {
 
     fun rgb(rgb: Int): ColorRGBA {
         return rgba(rgb, 0xff)
+    }
+
+    fun hsv(h: Int, s: Float, v: Float): ColorRGBA {
+        // 允许更宽松输入，先归一化到标准 HSV 范围
+        val hue = ((h % 360) + 360) % 360
+        val sat = s.coerceIn(0f, 1f)
+        val value = v.coerceIn(0f, 1f)
+
+        if (sat == 0f) {
+            val gray = (value * 255f).roundToInt().coerceIn(0, 255)
+            return rgb(gray, gray, gray)
+        }
+
+        val c = value * sat
+        val x = c * (1f - abs((hue / 60f) % 2f - 1f))
+        val m = value - c
+
+        val (r1, g1, b1) = when (hue) {
+            in 0 until 60 -> Triple(c, x, 0f)
+            in 60 until 120 -> Triple(x, c, 0f)
+            in 120 until 180 -> Triple(0f, c, x)
+            in 180 until 240 -> Triple(0f, x, c)
+            in 240 until 300 -> Triple(x, 0f, c)
+            else -> Triple(c, 0f, x)
+        }
+
+        val r = ((r1 + m) * 255f).roundToInt().coerceIn(0, 255)
+        val g = ((g1 + m) * 255f).roundToInt().coerceIn(0, 255)
+        val b = ((b1 + m) * 255f).roundToInt().coerceIn(0, 255)
+
+        return rgb(r, g, b)
     }
 }

@@ -1,13 +1,11 @@
 package xyz.cimetieredesinnocents.cdicore.tech
 
 import net.minecraft.core.Holder
-import net.minecraft.core.RegistrySetBuilder
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ColorRGBA
 import net.minecraft.world.level.Level
-import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider
 import xyz.cimetieredesinnocents.cdicore.loaders.DataRegistryLoader
 import xyz.cimetieredesinnocents.cdilib.loaders.DataGenLoaderFactory
 import kotlin.reflect.KProperty
@@ -41,17 +39,10 @@ open class ResearchTableTierLoaderFactory(private val modid: String) {
     }
 
     fun bootstrap(loader: DataGenLoaderFactory) {
-        loader.register(DataGenLoaderFactory.Side.SERVER) {
-            DatapackBuiltinEntriesProvider(
-                it.output,
-                it.lp,
-                RegistrySetBuilder().add(DataRegistryLoader.RESEARCH_TABLE_TIER) {
-                    for (item in registry) {
-                        item.register(it)
-                    }
-                },
-                setOf(modid)
-            )
+        loader.datapack(DataRegistryLoader.RESEARCH_TABLE_TIER) {
+            for (item in registry) {
+                item.register(it)
+            }
         }
     }
 }

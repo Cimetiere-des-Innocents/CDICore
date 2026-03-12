@@ -3,5 +3,11 @@
     "tab.cdicore.tab": "CDI核心",
     "item.cdicore.cdi_debug_stick": "CDI调试杖",
     "item.cdicore.cdi_logo": "CDI图标",
-    "fml.menu.mods.info.description.cdicore": "CDI系列核心Mod"
+    "fml.menu.mods.info.description.cdicore": "CDI系列核心Mod",
+    "tooltip.cdicore.tech.researched": "已研究",
+    "tooltip.cdicore.tech.researching": "正在研究",
+    "tooltip.cdicore.tech.researchable": "可研究",
+    "tooltip.cdicore.tech.notResearched": "未研究",
+    "tooltip.cdicore.tech.needResearch": "需要研究:",
+    "tooltip.cdicore.tech.needResearchTable": "需要研究台"
 }
